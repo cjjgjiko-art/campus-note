@@ -29,6 +29,9 @@ main{max-width:1160px;margin:auto;padding:44px 32px 28px}.intro{display:flex;jus
 body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.import-heading{position:sticky;top:-26px;z-index:2;background:white;padding:18px 0;margin-top:-18px}.import-footer{position:sticky;bottom:-26px;z-index:2;background:white;border-top:1px solid var(--line);padding:14px 0 20px;margin-bottom:-26px}
 @media(max-width:650px){.import-heading{top:-20px}.import-footer{bottom:-20px;margin-bottom:-20px}}
 .file-import{background:#f3f6ff;border:1px solid #dce4fc;border-radius:12px;padding:16px;margin-bottom:20px}.file-import h3{font-size:15px;margin:0 0 5px}.file-import p{font-size:12px;color:var(--muted);margin:0 0 12px}.file-import input[type=file]{font-size:12px;background:white}.file-import input::file-selector-button{border:0;border-radius:6px;background:#e9efff;color:var(--blue);padding:8px;margin-right:9px;cursor:pointer}.file-import .file-course{margin-top:12px}.file-status{font-size:12px;color:var(--blue);overflow-wrap:anywhere;margin-top:10px;white-space:pre-wrap}.csv-template{display:inline-block;font-size:11px;color:var(--blue);margin-top:10px}.import-divider{font-size:12px;font-weight:700;margin:18px 0 12px;color:var(--muted)}
+.calendar-tools{display:flex;justify-content:space-between;align-items:center;gap:14px;background:white;border:1px solid var(--line);border-radius:14px;margin:-10px 0 26px;padding:15px 19px}.calendar-tools p{font-size:11px;color:var(--muted);margin:0;max-width:650px}.calendar-tools button{white-space:nowrap;border:1px solid #cbd7f6;background:#f2f5ff;border-radius:9px;padding:10px 14px;color:var(--blue);font-size:12px;font-weight:700}.group-choice{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin:0 0 15px}.group-choice input{accent-color:var(--blue);width:18px;height:18px;flex-shrink:0}.team-editor{margin:0 0 18px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#f8faff}.team-editor[hidden]{display:none}.team-editor p{color:var(--muted);font-size:11px;margin:0 0 12px}.member-rows{display:grid;gap:10px}.member-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) auto;gap:8px;align-items:end}.member-row label{display:block;color:var(--muted);font-size:11px;margin-bottom:4px;font-weight:600}.member-row input{font:inherit;font-size:12px;width:100%;min-width:0;padding:9px 8px;border:1px solid #dbe1ed;border-radius:8px;background:white;color:var(--ink)}.member-remove{border:0;background:transparent;color:#a3273c;font:inherit;font-size:11px;padding:10px 3px;min-height:38px}.add-member{border:1px solid #cbd7f6;background:white;border-radius:8px;color:var(--blue);padding:8px 12px;margin-top:12px;font:inherit;font-size:12px}.team-button{display:block;border:1px solid #dce4fc;border-radius:7px;background:#f5f7ff;color:#536da7;font-size:11px;padding:5px 8px;margin:10px 0 0;text-align:left;max-width:100%;overflow-wrap:anywhere}.is-complete .team-button{color:#475569}.team-badge{font-size:10px;color:#6b46a2;background:#f2edfb;padding:1px 5px;border-radius:4px}.team-task-description{margin:0 0 15px;color:var(--muted);font-size:13px;overflow-wrap:anywhere}.week-grid .team-button{font-size:10px;padding:4px;margin-top:7px}.panel .member-row{grid-template-columns:minmax(0,1fr)}.panel .member-remove{justify-self:end;padding:2px 6px;min-height:28px}.team-dialog .group-choice{display:flex;align-items:center;gap:8px;font-size:13px}.team-dialog .group-choice input{width:18px;height:18px;padding:0}.team-dialog .member-row label{font-size:11px;margin-bottom:4px}.team-dialog .member-row input{font-size:13px}.team-dialog .team-editor{margin-top:12px}
+@media(max-width:650px){.calendar-tools{align-items:stretch;flex-direction:column;padding:16px;gap:10px}.calendar-tools button{width:100%}.member-row{grid-template-columns:1fr}.member-remove{justify-self:end}.team-dialog .member-row input{font-size:14px}}
+body:has(.team-dialog[open]){overflow:hidden}
 </style>
 </head>
 <body>
@@ -38,12 +41,14 @@ body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.i
 <div id="notice" class="notice" role="alert" hidden></div>
 <section class="stats" aria-label="과제 현황"><div class="stat"><div><div class="stat-label">남은 과제</div><div class="stat-value"><span id="remaining-count">0</span><small>개</small></div></div><span class="stat-icon" aria-hidden="true">▤</span></div><div class="stat urgent"><div><div class="stat-label">마감 임박 · 기한 지남</div><div class="stat-value"><span id="urgent-count">0</span><small>개</small></div></div><span class="stat-icon" aria-hidden="true">◷</span></div><div class="stat done"><div><div class="stat-label">완료한 과제</div><div class="stat-value"><span id="done-count">0</span><small>개</small></div></div><span class="stat-icon" aria-hidden="true">✓</span></div></section>
 <section class="demo-tools" aria-label="예시 데이터 관리"><div><strong>7과목으로 미리 경험해 보세요</strong><p id="sample-summary" aria-live="polite">예시 데이터는 따로 초기화할 수 있어요. 직접 등록한 과제는 유지돼요.</p></div><div class="demo-actions"><button id="add-samples" type="button">예시 데이터 추가</button><button id="reset-samples" class="reset-samples" type="button" disabled>예시 데이터 초기화</button></div></section>
+<section class="calendar-tools" aria-label="캘린더 내보내기"><p id="export-note" role="status" aria-live="polite">모든 미완료 과제를 마감일 하루짜리 일정으로 내려받아요. 하루 전 알림이 포함되며, 알림 적용은 캘린더 앱 설정을 따라요.</p><button id="export-calendar" type="button">캘린더로 내보내기</button></section>
 <div class="workspace">
 <aside><section class="panel" aria-labelledby="form-title"><h2 id="form-title">새 과제 등록</h2><p class="panel-description">기억해야 할 일, 지금 적어 두세요.</p><form id="task-form">
 <div class="field"><label for="course">과목명</label><input id="course" name="course" placeholder="예: 경영학원론" maxlength="60" required autocomplete="off"></div>
 <div class="field"><label for="title">과제명 · 일정</label><input id="title" name="title" placeholder="예: 중간 보고서 제출" maxlength="120" required autocomplete="off"></div>
 <div class="field"><label for="due">마감일</label><input id="due" name="due" type="date" required min="1900-01-01" max="9999-12-31"></div>
 <fieldset class="priority"><legend>중요도</legend><div class="priority-options"><label><input type="radio" name="priority" value="high"><span>상</span></label><label><input type="radio" name="priority" value="medium" checked><span>중</span></label><label><input type="radio" name="priority" value="low"><span>하</span></label></div></fieldset>
+<label class="group-choice"><input id="new-is-group" type="checkbox">조별과제</label><section id="new-team-editor" class="team-editor" aria-label="새 과제 조원 분담표" hidden><p>조원 이름과 맡은 역할을 적어 주세요.</p><div id="new-member-rows" class="member-rows"></div><button id="new-add-member" class="add-member" type="button">＋ 조원 추가</button></section>
 <button class="add-button" type="submit">＋ 과제 추가하기</button><p class="save-note">이 브라우저에 자동으로 저장돼요.</p>
 </form><button id="open-import" class="import-launch" type="button">강의계획서에서 가져오기</button></section><p class="side-note"><strong>작은 습관, 여유로운 학기</strong><br>과제를 받자마자 적어 두면<br>마감 전날의 나에게 큰 도움이 돼요.</p></aside>
 <section aria-labelledby="list-title"><div class="list-heading"><h2 id="list-title">나의 과제 <span id="total-count" style="color:var(--blue);font-size:14px;margin-left:5px">0</span></h2><span class="sort-note">↗ 마감이 가까운 순</span></div>
@@ -68,6 +73,7 @@ body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.i
 <div class="import-footer"><button id="cancel-import" class="import-cancel" type="button">닫기</button><button id="submit-import" class="import-submit" type="submit" disabled>모두 추가</button></div>
 </form></div>
 </dialog>
+<dialog id="team-dialog" class="import-dialog team-dialog" aria-labelledby="team-title"><div class="import-shell"><div class="import-heading"><div><p class="eyebrow">TEAM WORK</p><h2 id="team-title">조별과제 분담표</h2></div><button id="close-team" class="close-dialog" type="button" aria-label="분담표 닫기">×</button></div><p id="team-task-description" class="team-task-description"></p><form id="team-form"><label class="group-choice"><input id="team-is-group" type="checkbox">조별과제로 관리하기</label><section id="saved-team-editor" class="team-editor" aria-label="과제 조원 분담표" hidden><p>이름과 역할을 입력한 뒤 저장하세요. 이 브라우저에 보관돼요.</p><div id="saved-member-rows" class="member-rows"></div><button id="saved-add-member" class="add-member" type="button">＋ 조원 추가</button></section><p id="team-error" class="import-error" role="alert" hidden></p><div class="import-footer"><button id="cancel-team" class="import-cancel" type="button">취소</button><button id="save-team" class="import-submit" type="submit">분담표 저장</button></div></form></div></dialog>
 <script>
 (() => {
   'use strict';
@@ -130,7 +136,7 @@ body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.i
   };
   function warn(message) { $('notice').textContent = message; $('notice').hidden = false; }
   function validTask(task) {
-    return task && typeof task.id === 'string' && typeof task.course === 'string' && task.course.trim() && task.course.length <= 60 && typeof task.title === 'string' && task.title.trim() && task.title.length <= 120 && validDate(task.due) && Object.hasOwn(priorityNames,task.priority) && typeof task.completed === 'boolean';
+    return task && typeof task.id === 'string' && typeof task.course === 'string' && task.course.trim() && task.course.length <= 60 && typeof task.title === 'string' && task.title.trim() && task.title.length <= 120 && validDate(task.due) && Object.hasOwn(priorityNames,task.priority) && typeof task.completed === 'boolean' && (task.isGroup === undefined || typeof task.isGroup === 'boolean') && (task.groupMembers === undefined || (Array.isArray(task.groupMembers) && task.groupMembers.length <= 30 && task.groupMembers.every(member => member && typeof member.name === 'string' && member.name.trim() && member.name.length <= 40 && typeof member.role === 'string' && member.role.trim() && member.role.length <= 120)));
   }
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -169,6 +175,7 @@ body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.i
     $('add-samples').disabled = storageBlocked || sampleCount > 0;
     $('reset-samples').disabled = storageBlocked || sampleCount === 0;
     $('open-import').disabled = storageBlocked;
+    $('export-calendar').disabled = storageBlocked || active.length === 0;
     $('sample-summary').textContent = sampleCount ? `예시 과제 ${sampleCount}개가 있어요. 초기화해도 직접 등록한 과제는 유지돼요.` : '예시 10개를 추가해 둘러보세요. 직접 등록한 과제는 유지돼요.';
     const monday = new Date(now.getFullYear(),now.getMonth(),now.getDate());
     monday.setDate(monday.getDate() - (monday.getDay()+6)%7);
@@ -226,7 +233,12 @@ body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.i
       priority.append(el('span','dot'),el('span','',`중요도 ${priorityNames[task.priority]}`));
       meta.append(due,priority);
       if (task.isSample === true) meta.append(el('span','sample-badge','예시'));
+      if (task.isGroup) meta.append(el('span','team-badge','조별과제'));
       content.append(meta);
+      const team = el('button','team-button',task.isGroup ? `분담표 (${(task.groupMembers || []).length}명)` : '조별과제 설정');
+      team.type = 'button'; team.disabled = storageBlocked;
+      team.setAttribute('aria-label',`${task.course} · ${task.title} ${task.isGroup ? '분담표' : '조별과제 설정'}`);
+      team.addEventListener('click',()=>openTeam(task.id)); content.append(team);
       const actions = el('div','task-actions');
       const label = task.completed ? '완료' : days < 0 ? `D+${Math.abs(days)}` : days === 0 ? 'D-day' : `D-${days}`;
       const badge = el('span','dday',label);
@@ -242,16 +254,92 @@ body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.i
     $('course').setCustomValidity(course ? '' : '과목명을 입력해 주세요.');
     $('title').setCustomValidity(title ? '' : '과제명을 입력해 주세요.');
     $('due').setCustomValidity(validDate(due) ? '' : '올바른 마감일을 입력해 주세요.');
+    for (const input of $('new-member-rows').querySelectorAll('input')) if (!input.disabled) input.setCustomValidity(input.value.trim() ? '' : '이름과 역할을 입력해 주세요.');
     if (!$('task-form').reportValidity()) return;
-    const task = {id:newId(),course,title,due,priority:new FormData(event.currentTarget).get('priority'),completed:false};
+    const isGroup = $('new-is-group').checked;
+    const groupMembers = isGroup ? readMembers($('new-member-rows')) : [];
+    if (isGroup && !groupMembers.length) { $('new-is-group').setCustomValidity('조원을 한 명 이상 추가해 주세요.'); $('new-is-group').reportValidity(); return; }
+    const task = {id:newId(),course,title,due,priority:new FormData(event.currentTarget).get('priority'),completed:false,isGroup,groupMembers};
     if (commit([...tasks,task],'새 과제를 추가했어요.')) {
       $('title').value = ''; $('due').value = ''; $('title').focus();
+      $('new-is-group').checked = false; $('new-member-rows').replaceChildren(); toggleTeamEditor('new');
       if (filter === 'completed') filter = 'all';
       if (filter === 'week' && ![...$('cards').querySelectorAll('.task')].some(card => card.dataset.id === task.id)) filter = 'all';
       updateFilters(); render();
     }
   });
   ['course','title','due'].forEach(id => $(id).addEventListener('input', () => $(id).setCustomValidity('')));
+  function addMemberRow(container,member = {name:'',role:''}) {
+    if (container.children.length >= 30) return;
+    const row = el('div','member-row');
+    for (const [key,label,limit] of [['name','조원 이름',40],['role','맡은 역할',120]]) {
+      const group = el('div'), input = el('input',`member-${key}`), caption = el('label','',label);
+      input.id = 'member-'+newId(); caption.htmlFor = input.id;
+      input.value = member[key]; input.maxLength=limit; input.required=true;
+      input.placeholder=key === 'name' ? '예: 김민수' : '예: 자료 조사';
+      input.addEventListener('input',()=>input.setCustomValidity(''));
+      group.append(caption,input); row.append(group);
+    }
+    const remove=el('button','member-remove','삭제'); remove.type='button'; remove.setAttribute('aria-label','조원 행 삭제');
+    remove.addEventListener('click',()=>{row.remove(); const target=container.querySelector('input') || $(container.id === 'new-member-rows' ? 'new-add-member' : 'saved-add-member'); target.focus();});
+    row.append(remove); container.append(row);
+    const checkbox = $(container.id === 'new-member-rows' ? 'new-is-group' : 'team-is-group'); checkbox.setCustomValidity('');
+    return row;
+  }
+  function readMembers(container) {
+    return [...container.querySelectorAll('.member-row')].map(row=>({name:row.querySelector('.member-name').value.trim(),role:row.querySelector('.member-role').value.trim()}));
+  }
+  function toggleTeamEditor(kind) {
+    const isNew = kind === 'new', checkbox = $(isNew ? 'new-is-group' : 'team-is-group');
+    const editor = $(isNew ? 'new-team-editor' : 'saved-team-editor'), rows = $(isNew ? 'new-member-rows' : 'saved-member-rows');
+    checkbox.setCustomValidity(''); editor.hidden = !checkbox.checked;
+    if (checkbox.checked && !rows.children.length) addMemberRow(rows);
+    editor.querySelectorAll('input,button').forEach(control=>control.disabled = !checkbox.checked);
+  }
+  $('new-is-group').addEventListener('change',()=>toggleTeamEditor('new'));
+  $('team-is-group').addEventListener('change',()=>toggleTeamEditor('saved'));
+  for (const kind of ['new','saved']) $(kind+'-add-member').addEventListener('click',()=>{const row=addMemberRow($(kind+'-member-rows')); if (row) row.querySelector('input').focus();});
+  const teamDialog = $('team-dialog'); let teamTaskId = null;
+  function openTeam(id) {
+    const task=tasks.find(item=>item.id === id); if (!task) return;
+    teamTaskId=id; $('team-task-description').textContent=`[${task.course}] ${task.title}`;
+    $('team-is-group').checked=!!task.isGroup; $('team-is-group').setCustomValidity('');
+    $('saved-member-rows').replaceChildren(); (task.groupMembers || []).forEach(member=>addMemberRow($('saved-member-rows'),member));
+    $('team-error').hidden=true; toggleTeamEditor('saved'); teamDialog.showModal();
+  }
+  ['close-team','cancel-team'].forEach(id=>$(id).addEventListener('click',()=>teamDialog.close()));
+  teamDialog.addEventListener('close',()=>{const id=teamTaskId; teamTaskId=null; $('saved-member-rows').replaceChildren(); const card=[...$('cards').querySelectorAll('.task')].find(item=>item.dataset.id === id); card?.querySelector('.team-button')?.focus();});
+  $('team-form').addEventListener('submit',event=>{
+    event.preventDefault(); const current=tasks.find(item=>item.id === teamTaskId); if (!current || storageBlocked) return;
+    const isGroup=$('team-is-group').checked, groupMembers=isGroup ? readMembers($('saved-member-rows')) : [];
+    if (isGroup && !groupMembers.length) { $('team-is-group').setCustomValidity('조원을 한 명 이상 추가해 주세요.'); $('team-is-group').reportValidity(); return; }
+    for (const input of $('saved-member-rows').querySelectorAll('input')) if (!input.disabled) input.setCustomValidity(input.value.trim() ? '' : '이름과 역할을 입력해 주세요.');
+    if (!$('team-form').reportValidity()) return;
+    if (commit(tasks.map(task=>task.id === teamTaskId ? {...task,isGroup,groupMembers} : task),'조별과제 분담표를 저장했어요.')) teamDialog.close();
+    else { $('team-error').textContent='분담표를 저장하지 못했어요. 저장 공간을 확인하고 다시 시도해 주세요.'; $('team-error').hidden=false; }
+  });
+  // RFC 5545 text escaping and UTF-8 octet folding keep Korean titles portable.
+  function icsText(value) { return String(value).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g,'').replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;'); }
+  function foldICS(line) {
+    const encoder = new TextEncoder(); let result='',length=0;
+    for (const char of line) { const size=encoder.encode(char).length; if (length+size > 75) { result+='\r\n '; length=1; } result+=char; length+=size; }
+    return result;
+  }
+  $('export-calendar').addEventListener('click',()=>{
+    const remaining=tasks.filter(task=>!task.completed).slice().sort((a,b)=>a.due.localeCompare(b.due));
+    if (!remaining.length) return;
+    const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+    const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Campus Note//Assignments//KO','CALSCALE:GREGORIAN','X-WR-CALNAME:학기노트 과제'];
+    for (const task of remaining) {
+      const title=`[${task.course}] ${task.title}`;
+      lines.push('BEGIN:VEVENT',`UID:campus-${encodeURIComponent(task.id)}@campus-note.local`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${task.due.replaceAll('-','')}`,'DURATION:P1D',`SUMMARY:${icsText(title)}`,`DESCRIPTION:${icsText('과제 마감 · 중요도 '+priorityNames[task.priority])}`,'TRANSP:TRANSPARENT','BEGIN:VALARM','ACTION:DISPLAY','TRIGGER;RELATED=START:-P1D',`DESCRIPTION:${icsText('내일 마감: '+title)}`,'END:VALARM','END:VEVENT');
+    }
+    lines.push('END:VCALENDAR');
+    const url=URL.createObjectURL(new Blob([lines.map(foldICS).join('\r\n')+'\r\n'],{type:'text/calendar;charset=utf-8'}));
+    const link=el('a'); link.href=url; link.download=`학기노트_미완료과제_${dateString(new Date())}.ics`; document.body.append(link); link.click(); link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),30000);
+    $('export-note').textContent=`미완료 과제 ${remaining.length}개의 .ics 파일을 만들었어요. 캘린더 앱으로 가져오세요. 하루 전 알림의 적용은 앱 설정을 따라요.`;
+  });
   $('add-samples').addEventListener('click',() => {
     if (tasks.some(task => task.isSample === true)) return;
     if (commit([...tasks,...makeSampleTasks()],'예시 과제 10개를 추가했어요.')) {
