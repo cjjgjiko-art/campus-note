@@ -266,7 +266,7 @@ body:has(.import-dialog[open]){overflow:hidden}.import-dialog{overflow-y:auto}.i
   const importDialog = $('import-dialog');
   let drafts = [], importController = null, fileJob = null, pdfModulePromise = null;
   function importError(message) { $('import-error').textContent = message; $('import-error').hidden = !message; }
-  function clearDrafts() { drafts = []; $('drafts').replaceChildren(); $('import-review').hidden = true; $('submit-import').disabled = true; }
+  function clearDrafts() { drafts = []; $('drafts').replaceChildren(); $('import-review').hidden = true; $('submit-import').disabled = true; $('submit-import').textContent = '모두 추가'; }
   function importBusy(busy,kind = 'gpt') {
     $('analyze-import').disabled = busy;
     $('analyze-import').textContent = busy && kind === 'gpt' ? 'GPT가 분석 중…' : '분석하기';
